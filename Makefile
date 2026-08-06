@@ -16,7 +16,7 @@ INC     := -Isrc/wubucore -Isrc/wid -Isrc/penny_score -Isrc/pennychain \
            -Isrc/greed_index -Isrc/world_model -Isrc/mirror_score \
            -Isrc/wubu_laws -Isrc/plain_lang -Isrc/cohesion \
            -Isrc/decline_gate -Isrc/goodhart -Isrc/rotation \
-           -Isrc/escalate
+           -Isrc/escalate -Isrc/vigilance -Isrc/filing_check
 
 # --- core library (the ONE shared dependency) ---
 CORE_SRC := src/wubucore/wubucore.c src/wubucore/wubusha256.c
@@ -33,7 +33,8 @@ MOD_SRCS := src/wid/wid.c src/penny_score/penny_score.c \
             src/wubu_laws/wubu_laws.c src/plain_lang/plain_lang.c \
             src/cohesion/cohesion.c src/decline_gate/decline_gate.c \
             src/goodhart/goodhart.c src/rotation/rotation.c \
-            src/escalate/escalate.c
+            src/escalate/escalate.c src/vigilance/vigilance.c \
+            src/filing_check/filing_check.c
 MOD_OBJ := $(MOD_SRCS:.c=.o)
 
 # --- CLIs ---
@@ -45,7 +46,8 @@ CLI_SRCS := apps/wid_cli.c apps/penny_score_cli.c apps/pennychain_cli.c \
             apps/mirror_score_cli.c apps/wubu_laws_cli.c \
             apps/plain_lang_cli.c apps/cohesion_cli.c \
             apps/decline_gate_cli.c apps/goodhart_cli.c \
-            apps/rotation_cli.c apps/escalate_cli.c
+            apps/rotation_cli.c apps/escalate_cli.c \
+            apps/vigilance_cli.c apps/filing_check_cli.c
 CLI_BINS := $(patsubst apps/%_cli.c,bin/%,$(CLI_SRCS))
 
 # --- tests ---
@@ -54,7 +56,8 @@ TEST_SRCS := tests/test_wid.c tests/test_penny_score.c \
              tests/test_eco_sims.c tests/test_world_model.c \
              tests/test_plain_lang.c tests/test_cohesion.c \
              tests/test_decline_gate.c tests/test_goodhart.c \
-             tests/test_rotation.c tests/test_escalate.c
+             tests/test_rotation.c tests/test_escalate.c \
+             tests/test_vigilance.c tests/test_filing_check.c
 TEST_BINS := $(patsubst tests/%.c,bin/%,$(TEST_SRCS))
 
 all: $(CORE_LIB) $(CLI_BINS) $(TEST_BINS)

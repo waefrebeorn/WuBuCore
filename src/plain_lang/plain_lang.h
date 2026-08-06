@@ -51,6 +51,37 @@ const char *plain_lang_replacement(const char *word);
 /* Verdict label for a score (static). */
 const char *plain_lang_verdict(const plain_metrics *m);
 
+/* ------------------------------------------------------------------ */
+/* The STE gate (RND-22): ASD-STE100 Simplified Technical English.    */
+/* FRES is the floor; STE is the discipline.                          */
+/* ------------------------------------------------------------------ */
+
+/* STE violation kinds. */
+#define PL_STE_SENTENCE_LONG "STE LONG SENTENCE"
+#define PL_STE_PASSIVE       "STE PASSIVE"
+#define PL_STE_AND_OR        "STE AND/OR"
+#define PL_STE_ABBREV        "STE ABBREV"
+#define PL_STE_PERFECT       "STE PERFECT"
+#define PL_STE_NOUN_CLUSTER  "STE NOUN CLUSTER"
+
+/* The STE sentence cap: 20 words procedural / 25 descriptive.
+ * The gate uses the 25 descriptive cap (documents are prose). */
+#define PL_STE_SENTENCE_CAP 25
+
+typedef struct ste_metrics {
+    size_t sentences;         /* total sentences */
+    size_t long_sentences;    /* > STE cap (20 procedural / 25 descriptive) */
+    size_t passives;          /* passive-voice markers */
+    size_t and_or;            /* "and/or" occurrences */
+    size_t abbrevs;           /* i.e. / e.g. / etc. in prose */
+    size_t perfects;          /* has/have/had + past participle */
+    size_t noun_clusters;     /* 4+ word noun runs */
+    int ste_clear;            /* 1 when no STE violations */
+} ste_metrics;
+
+/* Run the STE gate on a document. Returns 0 ok, -1 bad args. */
+int plain_lang_ste(const char *text, ste_metrics *out);
+
 #ifdef __cplusplus
 }
 #endif

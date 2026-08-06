@@ -40,12 +40,14 @@ the discipline the space demands.
 | World Model | `src/world_model` | mean/median/skill-weighted/hybrid | RND-17 |
 | Mirror Score | `src/mirror_score` | entropy audit, 0=tool 100=mirror | GOV-3/RND-18 |
 | WuBu Laws | `src/wubu_laws` | the five laws of tools, compliance | RND-19 |
-| Plain Lang | `src/plain_lang` | the Language Doctrine checker: Flesch-Kincaid score + banned words + long-sentence flags | RND-20 |
+| Plain Lang | `src/plain_lang` | the Language Doctrine checker: Flesch-Kincaid score + banned words + long-sentence flags (FRES gate, RND-20) AND the STE gate (`--ste`, RND-22: sentence caps, active voice, no and/or/abbrevs/present perfect) | RND-20/RND-22 |
 | Cohesion | `src/cohesion` | the User Doctrine's priority math: sapience = cohesion of resources + remembering ethos; living outranks tools; parasites collapse | GOV-5 |
 | Decline Gate | `src/decline_gate` | the Integration Doctrine's statistical gate: processes happen unless the population declines them via a statistical anomaly (z vs baseline); outlier vs trend | GOV-6 |
 | Escalate | `src/escalate` | the Fengqiao ladder: resolve lowest, escalate one, escalate all — a filing naming an official always reaches the Bureau | GOV-7 |
 | Goodhart | `src/goodhart` | the audit that audits: threshold bunching, digit preference, variance collapse, Benford deviation; 0 honest / 100 gamed | GOV-8 |
 | Rotation | `src/rotation` | the Ratchet Doctrine on the real-time clock: term limits, age limits (informational), local election timing, the ratchet test | GOV-9 |
+| Vigilance | `src/vigilance` | the Bureau's WBI-1 triage: class (penny evasion highest), severity 0-100, Fengqiao escalation | GOV-11 |
+| Filing Check | `src/filing_check` | the audit as a tool: numbering collisions, dangling references, amendment pointers | GOV-11/AUD-3 |
 
 `src/wubucore` holds the one shared dependency: `wubu_clamp`, `wubu_sigmoid`,
 `wubu_tanh`, `wubu_fnv1a`, `wubu_rand64`, and a clean-room SHA-256.
