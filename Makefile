@@ -14,7 +14,8 @@ INC     := -Isrc/wubucore -Isrc/wid -Isrc/penny_score -Isrc/pennychain \
            -Isrc/penny_weight -Isrc/status_loop -Isrc/vacant_lot \
            -Isrc/lifespan_loop -Isrc/numbing -Isrc/better_service \
            -Isrc/greed_index -Isrc/world_model -Isrc/mirror_score \
-           -Isrc/wubu_laws -Isrc/plain_lang -Isrc/cohesion
+           -Isrc/wubu_laws -Isrc/plain_lang -Isrc/cohesion \
+           -Isrc/decline_gate
 
 # --- core library (the ONE shared dependency) ---
 CORE_SRC := src/wubucore/wubucore.c src/wubucore/wubusha256.c
@@ -29,7 +30,7 @@ MOD_SRCS := src/wid/wid.c src/penny_score/penny_score.c \
             src/better_service/better_service.c src/greed_index/greed_index.c \
             src/world_model/world_model.c src/mirror_score/mirror_score.c \
             src/wubu_laws/wubu_laws.c src/plain_lang/plain_lang.c \
-            src/cohesion/cohesion.c
+            src/cohesion/cohesion.c src/decline_gate/decline_gate.c
 MOD_OBJ := $(MOD_SRCS:.c=.o)
 
 # --- CLIs ---
@@ -39,14 +40,16 @@ CLI_SRCS := apps/wid_cli.c apps/penny_score_cli.c apps/pennychain_cli.c \
             apps/numbing_cli.c apps/better_service_cli.c \
             apps/greed_index_cli.c apps/world_model_cli.c \
             apps/mirror_score_cli.c apps/wubu_laws_cli.c \
-            apps/plain_lang_cli.c apps/cohesion_cli.c
+            apps/plain_lang_cli.c apps/cohesion_cli.c \
+            apps/decline_gate_cli.c
 CLI_BINS := $(patsubst apps/%_cli.c,bin/%,$(CLI_SRCS))
 
 # --- tests ---
 TEST_SRCS := tests/test_wid.c tests/test_penny_score.c \
              tests/test_pennychain.c tests/test_penny_weight.c \
              tests/test_eco_sims.c tests/test_world_model.c \
-             tests/test_plain_lang.c tests/test_cohesion.c
+             tests/test_plain_lang.c tests/test_cohesion.c \
+             tests/test_decline_gate.c
 TEST_BINS := $(patsubst tests/%.c,bin/%,$(TEST_SRCS))
 
 all: $(CORE_LIB) $(CLI_BINS) $(TEST_BINS)

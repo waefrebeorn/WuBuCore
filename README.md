@@ -42,6 +42,7 @@ the discipline the space demands.
 | WuBu Laws | `src/wubu_laws` | the five laws of tools, compliance | RND-19 |
 | Plain Lang | `src/plain_lang` | the Language Doctrine checker: Flesch-Kincaid score + banned words + long-sentence flags | RND-20 |
 | Cohesion | `src/cohesion` | the User Doctrine's priority math: sapience = cohesion of resources + remembering ethos; living outranks tools; parasites collapse | GOV-5 |
+| Decline Gate | `src/decline_gate` | the Integration Doctrine's statistical gate: processes happen unless the population declines them via a statistical anomaly (z vs baseline); outlier vs trend | GOV-6 |
 
 `src/wubucore` holds the one shared dependency: `wubu_clamp`, `wubu_sigmoid`,
 `wubu_tanh`, `wubu_fnv1a`, `wubu_rand64`, and a clean-room SHA-256.

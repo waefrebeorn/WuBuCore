@@ -205,12 +205,14 @@ static void scan_text(const char *text, scan *s) {
             if (s->cur_sent_words > 0) scan_sentence_end(s);
             i++;
         } else if (c == '\n') {
-            /* a newline starts a line; a list marker (-, *, digit.)
-             * on that line starts a new unit */
+            /* a newline starts a line; a list marker (-, *, digit.),
+             * a header (#), or a blockquote (>) on that line starts
+             * a new unit */
             size_t j = i + 1;
             while (j < n && (text[j] == ' ' || text[j] == '\t')) j++;
             if (j < n && (text[j] == '-' || text[j] == '*' ||
-                          text[j] == '|')) {
+                          text[j] == '|' || text[j] == '#' ||
+                          text[j] == '>')) {
                 if (s->cur_sent_words > 0) scan_sentence_end(s);
             }
             i++;
