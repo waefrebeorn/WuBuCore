@@ -169,12 +169,50 @@ static void scan_text(const char *text, scan *s) {
     size_t n = strlen(text);
     while (i < n) {
         unsigned char c = (unsigned char)text[i];
-        if (isalpha(c)) {
+        if (isalnum(c)) {
+            /* a token: alphanumerics plus word-connectors (. @ / - &) */
             size_t start = i;
-            while (i < n && isalpha((unsigned char)text[i])) i++;
-            scan_word(s, text + start, i - start);
-        } else if (c == '.' || c == '!' || c == '?') {
+            int pure_alpha = 1;
+            while (i < n) {
+                unsigned char d = (unsigned char)text[i];
+                if (isalnum(d)) {
+                    if (!isalpha(d)) pure_alpha = 0;
+                    i++;
+                } else if (d == '.' || d == '@' || d == '/' || d == '-' ||
+                           d == '&' || d == '_') {
+                    /* a connector joins only when more alphanumerics
+                     * follow: URL (waefrebeorn.org), email (@), R&D.
+                     * A trailing '.' must stay a sentence end. */
+                    if (i + 1 < n && isalnum((unsigned char)text[i + 1])) {
+                        pure_alpha = 0;
+                        i++;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            /* only pure-alpha tokens are words: URLs, emails, numbers,
+             * and hyphenated terms are not readability words */
+            if (pure_alpha) {
+                scan_word(s, text + start, i - start);
+            }
+        } else if (c == '.' || c == '!' || c == '?' || c == '|' ||
+                   c == ';') {
+            /* . ! ? end sentences; | splits table cells (each cell is
+             * a unit, not prose); ; is a soft break */
             if (s->cur_sent_words > 0) scan_sentence_end(s);
+            i++;
+        } else if (c == '\n') {
+            /* a newline starts a line; a list marker (-, *, digit.)
+             * on that line starts a new unit */
+            size_t j = i + 1;
+            while (j < n && (text[j] == ' ' || text[j] == '\t')) j++;
+            if (j < n && (text[j] == '-' || text[j] == '*' ||
+                          text[j] == '|')) {
+                if (s->cur_sent_words > 0) scan_sentence_end(s);
+            }
             i++;
         } else {
             i++;
