@@ -40,6 +40,7 @@ the discipline the space demands.
 | World Model | `src/world_model` | mean/median/skill-weighted/hybrid | RND-17 |
 | Mirror Score | `src/mirror_score` | entropy audit, 0=tool 100=mirror | GOV-3/RND-18 |
 | WuBu Laws | `src/wubu_laws` | the five laws of tools, compliance | RND-19 |
+| Plain Lang | `src/plain_lang` | the Language Doctrine checker: Flesch-Kincaid score + banned words + long-sentence flags | RND-20 |
 
 `src/wubucore` holds the one shared dependency: `wubu_clamp`, `wubu_sigmoid`,
 `wubu_tanh`, `wubu_fnv1a`, `wubu_rand64`, and a clean-room SHA-256.
@@ -77,6 +78,7 @@ bin/world_model --human "0.55 0.60 0.70 0.45 0.80" \
 bin/mirror_score --agree 8 --disagree 0 --novel 0 --confirm 9 --comfort 7
 bin/wubu_laws --no-harm 1 --filing-over-comfort 1 --can-say-no 1 \
     --explicable 1 --no-companion 1
+bin/plain_lang README.md        # Language Doctrine check (RND-20)
 ```
 
 ## Verification

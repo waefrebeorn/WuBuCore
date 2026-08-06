@@ -2,6 +2,7 @@
  * lifespan_loop, greed_index: the verified economics numbers. */
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 #include "status_loop.h"
 #include "numbing.h"
