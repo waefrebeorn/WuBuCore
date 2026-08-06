@@ -43,6 +43,9 @@ the discipline the space demands.
 | Plain Lang | `src/plain_lang` | the Language Doctrine checker: Flesch-Kincaid score + banned words + long-sentence flags | RND-20 |
 | Cohesion | `src/cohesion` | the User Doctrine's priority math: sapience = cohesion of resources + remembering ethos; living outranks tools; parasites collapse | GOV-5 |
 | Decline Gate | `src/decline_gate` | the Integration Doctrine's statistical gate: processes happen unless the population declines them via a statistical anomaly (z vs baseline); outlier vs trend | GOV-6 |
+| Escalate | `src/escalate` | the Fengqiao ladder: resolve lowest, escalate one, escalate all — a filing naming an official always reaches the Bureau | GOV-7 |
+| Goodhart | `src/goodhart` | the audit that audits: threshold bunching, digit preference, variance collapse, Benford deviation; 0 honest / 100 gamed | GOV-8 |
+| Rotation | `src/rotation` | the Ratchet Doctrine on the real-time clock: term limits, age limits (informational), local election timing, the ratchet test | GOV-9 |
 
 `src/wubucore` holds the one shared dependency: `wubu_clamp`, `wubu_sigmoid`,
 `wubu_tanh`, `wubu_fnv1a`, `wubu_rand64`, and a clean-room SHA-256.
