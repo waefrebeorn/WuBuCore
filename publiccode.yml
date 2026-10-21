@@ -1,0 +1,39 @@
+publiccodeYmlVersion: 0.5.0
+name: WuBuCore
+url: https://github.com/waefrebeorn/WuBuCore
+landingURL: https://waefrebeorn.org
+softwareVersion: "1.0.0"
+releaseDate: 2026-08-06
+platforms:
+  - linux
+categories:
+  - digital-citizenship
+  - collaboration
+  - development-tools
+developmentStatus: beta
+softwareType: standalone/other
+description:
+  en:
+    localisedName: WuBuCore
+    shortDescription: >-
+      The C11 operations core of the ~ WuBu ~ space: WID, Penny
+      Score, PennyChain, Penny Weight, and the plain-language
+      audit gates.
+    longDescription: >-
+      WuBuCore is the hands of the space. Every doctrine ships a
+      tool, and every tool lives here: WID (mod-11 checksum),
+      Penny Score family (penny, crew, compass), PennyChain, Penny
+      Weight, the Greed Index bands, the vigilance escalation, and
+      plain_lang — the language gate that measures every filing
+      against the WuBu Standard (FRES >= 60, grade <= 8).
+    features:
+      - WID numbers with mod-11 checksum
+      - Penny Score, Crew Score, Compass Score
+      - PennyChain and the Provenance Penny
+      - Greed Index bands and the greed_guard
+      - plain_lang: the plain-English gate (FRES/STE)
+      - 20+ test suites, ASan/UBSan clean
+legal:
+  license: WaefreBeorn-Umbrella-3.0
+  mainCopyrightOwner: WaefreBeorn
+  repoOwner: waefrebeorn

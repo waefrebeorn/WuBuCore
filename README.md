@@ -48,6 +48,9 @@ the discipline the space demands.
 | Rotation | `src/rotation` | the Ratchet Doctrine on the real-time clock: term limits, age limits (informational), local election timing, the ratchet test | GOV-9 |
 | Vigilance | `src/vigilance` | the Bureau's WBI-1 triage: class (penny evasion highest), severity 0-100, Fengqiao escalation | GOV-11 |
 | Filing Check | `src/filing_check` | the audit as a tool: numbering collisions, dangling references, amendment pointers | GOV-11/AUD-3 |
+| zh_lang | `src/zh_lang` | the Chinese readability gate: chars/sentence, char diversity, difficult-character ratio (GOV-10/RND-21) | GOV-10/RND-21 |
+| Crew Score | `src/crew_score` | cooperation metric, 0-1000: coop acts, report integrity, responsiveness, diversity of mind, longevity | RND-1 |
+| Compass Score | `src/compass_score` | trended direction, 0-1000: 500 + 500·tanh(slope) over 24 months | RND-1 |
 
 `src/wubucore` holds the one shared dependency: `wubu_clamp`, `wubu_sigmoid`,
 `wubu_tanh`, `wubu_fnv1a`, `wubu_rand64`, and a clean-room SHA-256.
@@ -56,7 +59,7 @@ the discipline the space demands.
 
 ```sh
 make          # build all CLIs + tests (0 warnings)
-make test     # run the full suite
+make test     # run the full suite (18 test suites)
 make san      # ASan+UBSan gate (0 leaks, 0 UB)
 make clean
 ```
@@ -86,6 +89,9 @@ bin/mirror_score --agree 8 --disagree 0 --novel 0 --confirm 9 --comfort 7
 bin/wubu_laws --no-harm 1 --filing-over-comfort 1 --can-say-no 1 \
     --explicable 1 --no-companion 1
 bin/plain_lang README.md        # Language Doctrine check (RND-20)
+bin/zh_lang file.txt            # Chinese readability gate (GOV-10/RND-21)
+bin/crew_score --coop 5 --reports 10 --replies 20 --mind 10 --months 24
+bin/compass_score --penny_slope 0.5 --vigilance_slope 0.5 --creation_slope 0.5 --crew_slope 0.5
 ```
 
 ## Verification
@@ -93,9 +99,16 @@ bin/plain_lang README.md        # Language Doctrine check (RND-20)
 Every test asserts numbers verified against the original Python tools
 (the space's independent oracle): WID check digits, the 764 Crew score,
 the 11000-penny/$110 reserve, the 0.09 nexus sensitivity, the 95.5% serve
-adoption, the 0.703 recalibrated world model, and the SHA-256 known vector
+adoption, the 0.703 recalibrated world model, the 1000 Crew Score, the
+Compass Score tanh formula, the zh_lang CLEAR/REWRITE verdicts, and the
+SHA-256 known vector
 `sha256("abc") = ba7816bf…`. The sanitizer gate runs the same suite.
 
 ## License
 
 WaefreBeorn Umbrella License v3.0 — see [LICENSE](LICENSE).
+
+<!-- GENERATED-INDEX -->
+## Index (generated)
+
+The **generated filing index** lives in [`INDEX.md`](INDEX.md) — produced by `tools/govgen.py index` from `registry/filings.json`. Never hand-edit it; edit the registry and regenerate.

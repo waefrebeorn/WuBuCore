@@ -79,9 +79,11 @@ int goodhart_audit(const double *values, size_t n, double target,
                 double exp = goodhart_benford_p(d);
                 benford_err += fabs(obs - exp);
             }
-            /* max possible error: sum of (1 - benford_p) twice-ish;
-             * normalize to 0..1 by dividing by 2 */
-            benford_err = benford_err / 2.0;
+            /* max possible TAV: all mass on digit d gives
+             * |1-p_d| + sum(|0-p_i|, i!=d) = (1-p_d) + (1-p_d) = 2(1-p_d).
+             * The worst case is d=9 (min p), so max = 2*(1-p(9)).
+             * Divide by that so benford_dev reaches 1.0 at full deviation. */
+            benford_err = benford_err / (2.0 * (1.0 - goodhart_benford_p(9)));
             if (benford_err > 1.0) benford_err = 1.0;
         }
     }

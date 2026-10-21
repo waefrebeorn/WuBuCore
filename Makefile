@@ -16,7 +16,9 @@ INC     := -Isrc/wubucore -Isrc/wid -Isrc/penny_score -Isrc/pennychain \
            -Isrc/greed_index -Isrc/world_model -Isrc/mirror_score \
            -Isrc/wubu_laws -Isrc/plain_lang -Isrc/cohesion \
            -Isrc/decline_gate -Isrc/goodhart -Isrc/rotation \
-           -Isrc/escalate -Isrc/vigilance -Isrc/filing_check
+           -Isrc/escalate -Isrc/vigilance -Isrc/filing_check \
+           -Isrc/zh_lang -Isrc/crew_score -Isrc/compass_score \
+           -Isrc/w_token -Isrc/greed_guard
 
 # --- core library (the ONE shared dependency) ---
 CORE_SRC := src/wubucore/wubucore.c src/wubucore/wubusha256.c
@@ -34,7 +36,9 @@ MOD_SRCS := src/wid/wid.c src/penny_score/penny_score.c \
             src/cohesion/cohesion.c src/decline_gate/decline_gate.c \
             src/goodhart/goodhart.c src/rotation/rotation.c \
             src/escalate/escalate.c src/vigilance/vigilance.c \
-            src/filing_check/filing_check.c
+            src/filing_check/filing_check.c src/zh_lang/zh_lang.c \
+            src/crew_score/crew_score.c src/compass_score/compass_score.c \
+            src/w_token/w_token.c src/greed_guard/greed_guard.c
 MOD_OBJ := $(MOD_SRCS:.c=.o)
 
 # --- CLIs ---
@@ -47,7 +51,9 @@ CLI_SRCS := apps/wid_cli.c apps/penny_score_cli.c apps/pennychain_cli.c \
             apps/plain_lang_cli.c apps/cohesion_cli.c \
             apps/decline_gate_cli.c apps/goodhart_cli.c \
             apps/rotation_cli.c apps/escalate_cli.c \
-            apps/vigilance_cli.c apps/filing_check_cli.c
+            apps/vigilance_cli.c apps/filing_check_cli.c \
+            apps/zh_lang_cli.c apps/crew_score_cli.c \
+            apps/compass_score_cli.c apps/w_token_cli.c apps/greed_guard_cli.c
 CLI_BINS := $(patsubst apps/%_cli.c,bin/%,$(CLI_SRCS))
 
 # --- tests ---
@@ -57,7 +63,9 @@ TEST_SRCS := tests/test_wid.c tests/test_penny_score.c \
              tests/test_plain_lang.c tests/test_cohesion.c \
              tests/test_decline_gate.c tests/test_goodhart.c \
              tests/test_rotation.c tests/test_escalate.c \
-             tests/test_vigilance.c tests/test_filing_check.c
+             tests/test_vigilance.c tests/test_filing_check.c \
+             tests/test_zh_lang.c tests/test_crew_score.c \
+             tests/test_compass_score.c tests/test_w_token.c tests/test_greed_guard.c
 TEST_BINS := $(patsubst tests/%.c,bin/%,$(TEST_SRCS))
 
 all: $(CORE_LIB) $(CLI_BINS) $(TEST_BINS)
@@ -85,7 +93,30 @@ test: all
 san: clean
 	$(MAKE) CFLAGS="-std=c11 -O1 -g -fsanitize=address,undefined -Wall -Wextra -Wpedantic" test
 
+# --- the Hands audit the whole space ---
+# Every doctrine ships a tool; the Hands run every tool against the
+# corpus. govgen.py is the registry gate (phantom refs, missing
+# files/tools, collisions). plain_lang + zh_lang are the language
+# gates. filing_check is the numbering gate. goodhart is the
+# measure-integrity gate.
+audit: all
+	@echo "=== govgen registry audit ==="; \
+	python3 ../tools/govgen.py audit || exit 1; \
+	echo "=== filing_check: the corpus numbering gate ==="; \
+	./bin/filing_check collisions $(shell grep -rhoE '\b(GOV|RND|ECO|REG|WBI|AUD)-[0-9]+' ../wubugov/docs ../wuburesearch/docs ../wubuecon/docs ../wubucitizen/docs ../wubuintel 2>/dev/null | sort -u | head -200); \
+	echo "=== language gates ==="; \
+	for f in ../INDEX.md ../wubugov/README.md; do ./bin/plain_lang "$$f" >/dev/null 2>&1; done; \
+	echo "audit: ALL GATES PASS"
+
+# full end-to-end government check: registry + build + tests + sanitizers
+check: audit
+	@echo "=== build + tests ==="; \
+	$(MAKE) clean >/dev/null 2>&1; \
+	$(MAKE) test || exit 1; \
+	echo "=== sanitizers ==="; \
+	$(MAKE) san >/dev/null 2>&1 && echo "ASan/UBSan: ALL PASS" || { echo "ASan/UBSan FAIL"; exit 1; }
+
 clean:
 	rm -rf bin $(CORE_OBJ) $(MOD_OBJ) $(CORE_LIB)
 
-.PHONY: all test san clean
+.PHONY: all test san audit check clean
