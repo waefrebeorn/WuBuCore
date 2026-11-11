@@ -8,6 +8,8 @@ economics/instrument suite — as one self-contained C11 codebase. No third
 party. No external dependencies beyond libc. We are the first ones; we
 properly make our own code.
 
+> **~WuBu~ AGI** — one system, many repositories. This is the **operations core**. The Body is [WuBuOS](https://github.com/waefrebeorn/WuBuOS), the Brain wubuwizard, the Compiler WuBuNOS.
+
 ## Why C11
 
 The tools were prototyped in Python and verified against real outputs. This
